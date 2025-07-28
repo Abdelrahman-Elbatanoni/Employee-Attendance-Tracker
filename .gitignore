@@ -1,0 +1,6 @@
+bin/
+obj/
+out/
+Debug/
+Release/
+*.vs/
