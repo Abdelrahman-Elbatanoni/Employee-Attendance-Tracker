@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Employee_Tracker.Models;
+namespace Employee_Attendance_Tracker.Models;
 
 
 public enum AttendanceStatus

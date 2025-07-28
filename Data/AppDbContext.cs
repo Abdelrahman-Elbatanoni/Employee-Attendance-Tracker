@@ -1,4 +1,4 @@
-﻿using Employee_Tracker.Models;
+﻿using Employee_Attendance_Tracker.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Employee_Attendance_Tracker.Data;

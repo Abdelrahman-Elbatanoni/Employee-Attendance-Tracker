@@ -1,4 +1,4 @@
-﻿using Employee_Tracker.Models;
+﻿using Employee_Attendance_Tracker.Models;
 
 namespace Employee_Attendance_Tracker.Services.Interfaces;
 
