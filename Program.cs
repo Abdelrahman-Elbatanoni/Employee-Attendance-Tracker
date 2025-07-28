@@ -1,4 +1,6 @@
 using Employee_Attendance_Tracker.Data;
+using Employee_Attendance_Tracker.Services.Implementations;
+using Employee_Attendance_Tracker.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Employee_Attendance_Tracker
@@ -16,9 +18,9 @@ namespace Employee_Attendance_Tracker
             builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseInMemoryDatabase("AttendanceDb"));
 
-            //builder.Services.AddScoped<IDepartmentService, DepartmentService>();
-            //builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-            //builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 
             builder.Services.AddControllersWithViews();
             var app = builder.Build();
