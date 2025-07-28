@@ -1,3 +1,6 @@
+using Employee_Attendance_Tracker.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace Employee_Attendance_Tracker
 {
     public class Program
@@ -9,6 +12,15 @@ namespace Employee_Attendance_Tracker
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseInMemoryDatabase("AttendanceDb"));
+
+            //builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            //builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            //builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+
+            builder.Services.AddControllersWithViews();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
