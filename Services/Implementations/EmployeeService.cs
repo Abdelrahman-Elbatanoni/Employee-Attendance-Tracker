@@ -23,7 +23,6 @@ public class EmployeeService : IEmployeeService
     {
         return await _context.Employees.Include(e => e.Department).FirstOrDefaultAsync(e => e.Id == id);
     }
-
     public async Task<Employee> CreateAsync(Employee employee)
     {
         if (!await IsEmailUniqueAsync(employee.Email))

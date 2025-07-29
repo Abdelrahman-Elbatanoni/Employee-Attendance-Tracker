@@ -38,6 +38,12 @@ namespace Employee_Attendance_Tracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Employee employee)
         {
+            var isunique = await _employeeService.IsEmailUniqueAsync(employee.Email);
+            if (!isunique)
+            {
+                TempData["Error"] = "This email already exists.";
+                return RedirectToAction("Create");
+            }
             if (ModelState.IsValid)
             {
                 try
