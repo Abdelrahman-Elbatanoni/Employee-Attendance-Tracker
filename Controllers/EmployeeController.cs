@@ -75,7 +75,12 @@ namespace Employee_Attendance_Tracker.Controllers
         public async Task<IActionResult> Edit(int id, Employee employee)
         {
             if (id != employee.Id) return BadRequest();
-
+            var isunique = await _employeeService.IsEmailUniqueAsync(employee.Email);
+            if (!isunique)
+            {
+                TempData["Error"] = "This email already exists.";
+                return RedirectToAction("Create");
+            }
             if (ModelState.IsValid)
             {
                 try
