@@ -19,6 +19,19 @@ public class EmployeeService : IEmployeeService
         return await _context.Employees.Include(e => e.Department).ToListAsync();
     }
 
+    public async Task<PagedResult<Employee>> GetPagedEmployees(int page, int pageSize)
+    {
+        var total = await _context.Employees.CountAsync();
+        var employees= await _context.Employees
+            .Include(e=>e.Department)
+            .OrderBy(e => e.FullName)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        return new PagedResult<Employee>() { Items = employees , Page=page, PageSize=pageSize,TotalCount=total};
+    }
+
+
     public async Task<Employee> GetByIdAsync(int id)
     {
         return await _context.Employees.Include(e => e.Department).FirstOrDefaultAsync(e => e.Id == id);

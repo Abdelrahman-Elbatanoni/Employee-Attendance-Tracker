@@ -21,6 +21,20 @@ public class AttendanceService : IAttendanceService
             .ToListAsync();
     }
 
+    public async Task<PagedResult<AttendanceRecord>> GetPagedAttendanceRecords(int page, int pageSize)
+    {
+        var total = await _context.AttendanceRecords.CountAsync();
+        var records = await _context.AttendanceRecords
+            .Include(d => d.Employee)
+            .Include(d=>d.Employee.Department)
+            .OrderBy(e => e.EmployeeId)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        return new PagedResult<AttendanceRecord>() { Items = records, Page = page, PageSize = pageSize, TotalCount = total };
+    }
+
+
     public async Task<AttendanceRecord> GetByIdAsync(int id)
     {
         return await _context.AttendanceRecords

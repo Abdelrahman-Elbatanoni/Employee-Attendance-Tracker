@@ -5,6 +5,8 @@ namespace Employee_Attendance_Tracker.Services.Interfaces;
 public interface IEmployeeService
 {
     Task<IEnumerable<Employee>> GetAllAsync();
+    Task<PagedResult<Employee>> GetPagedEmployees(int page, int pageSize);
+
     Task<Employee> GetByIdAsync(int id);
 
     Task<Employee> CreateAsync(Employee employee);

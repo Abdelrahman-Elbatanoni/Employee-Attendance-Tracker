@@ -16,17 +16,21 @@ namespace Employee_Attendance_Tracker.Controllers
             _departmentService = departmentService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var employees = await _employeeService.GetAllAsync();
+            const int pageSize = 5;
+
+            var pagedEmployees = await _employeeService.GetPagedEmployees(page, pageSize);
+            ViewBag.CurrentPage = page;
             var summaries = new Dictionary<int, AttendanceSummary>();
 
-            foreach (var emp in employees)
+            foreach (var emp in pagedEmployees.Items)
                 summaries[emp.Id] = await _employeeService.GetAttendanceSummaryAsync(emp.Id);
 
             ViewBag.Summaries = summaries;
-            return View(employees);
+            return View(pagedEmployees);
         }
+
 
         public async Task<IActionResult> Create()
         {

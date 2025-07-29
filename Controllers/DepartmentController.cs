@@ -14,11 +14,16 @@ public class DepartmentController : Controller
         _departmentService = departmentService;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int page = 1)
     {
-        var departments = await _departmentService.GetAllAsync();
-        return View(departments);
+        const int pageSize = 2;
+
+        var pagedDeparmtents = await _departmentService.GetPagedDepartments(page, pageSize);
+        ViewBag.CurrentPage = page;
+
+        return View(pagedDeparmtents);
     }
+
 
     public IActionResult Create()
     {

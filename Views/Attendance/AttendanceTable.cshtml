@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AttendanceRecord>
+﻿@model PagedResult<AttendanceRecord>
 
 <table class="table table-bordered table-striped">
     <thead>
@@ -11,12 +11,12 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var record in Model)
+        @foreach (var record in Model.Items)
         {
             <tr>
                 <td>@record.Date.ToString("yyyy-MM-dd")</td>
-                <td>@record.Employee?.FullName</td>
-                <td>@record.Employee?.Department?.Name</td>
+                <td>@record.Employee.FullName</td>
+                <td>@record.Employee.Department.Name</td>
                 <td>@record.Status</td>
                 <td>
                     <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@record.Id">Edit</a>
@@ -26,3 +26,16 @@
         }
     </tbody>
 </table>
+@if (Model.TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

@@ -21,12 +21,16 @@ public class AttendanceController : Controller
         _departmentService = departmentService;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int page = 1)
     {
-        await PopulateFilters();
-        var records = await _attendanceService.GetAllAsync();
-        return View(records);
+        const int pageSize = 1;
+
+        var pagedRecords = await _attendanceService.GetPagedAttendanceRecords(page, pageSize);
+        ViewBag.CurrentPage = page;
+
+        return View(pagedRecords);
     }
+
 
     [HttpPost]
     public async Task<IActionResult> Filter(int? departmentId, int? employeeId, DateTime? from, DateTime? to)

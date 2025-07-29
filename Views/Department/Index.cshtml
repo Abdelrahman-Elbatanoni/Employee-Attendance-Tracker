@@ -1,10 +1,9 @@
-﻿@model IEnumerable<Department>
+﻿@model PagedResult<Department>
 @{
     ViewData["Title"] = "Departments";
 }
-<h2>Departments</h2>
 
-<a class="btn btn-primary mb-3" asp-action="Create">Create New Department</a>
+<h2>Departments</h2>
 
 <table class="table table-bordered">
     <thead>
@@ -12,18 +11,18 @@
             <th>Name</th>
             <th>Code</th>
             <th>Location</th>
-            <th># of Employees</th>
+            <th>Number of Employees</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var dept in Model)
+        @foreach (var dept in Model.Items)
         {
             <tr>
                 <td>@dept.Name</td>
                 <td>@dept.Code</td>
                 <td>@dept.Location</td>
-                <td>@(dept.Employees?.Count ?? 0)</td>
+                <td>@dept.Employees.Count</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@dept.Id" class="btn btn-sm btn-warning">Edit</a>
                     <a asp-action="Delete" asp-route-id="@dept.Id" class="btn btn-sm btn-danger">Delete</a>
@@ -32,3 +31,16 @@
         }
     </tbody>
 </table>
+@if (Model.TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
