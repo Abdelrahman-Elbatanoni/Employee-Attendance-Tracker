@@ -1,0 +1,23 @@
+﻿@model IEnumerable<AttendanceRecord>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Employee</th>
+            <th>Department</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rec in Model)
+        {
+            <tr>
+                <td>@rec.Date.ToShortDateString()</td>
+                <td>@rec.Employee?.FullName</td>
+                <td>@rec.Employee?.Department?.Name</td>
+                <td>@rec.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
