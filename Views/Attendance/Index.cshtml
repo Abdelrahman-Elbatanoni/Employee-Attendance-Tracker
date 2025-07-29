@@ -8,7 +8,7 @@
 
 <!-- ========================== FILTER SECTION ========================== -->
 <div class="card mb-4">
-    <div class="card-header">Filter Attendance Records</div>
+    <div class="card-header fw-bold">Apply Filters</div>
     <div class="card-body row">
         <div class="col-md-3">
             <label>Department</label>
@@ -37,15 +37,21 @@
 </div>
 
 <!-- ========================== ATTENDANCE TABLE ========================== -->
-<div id="attendanceTable">
-    @Html.Partial("AttendanceTable", Model)
+<div class="card mb-4">
+    <div class="card-header fw-bold">Attendance Records</div>
+    <div class="card-body row">
+        <div id="attendanceTable">
+            @Html.Partial("AttendanceTable", Model)
+        </div>
+    </div>
 </div>
+
 
 <hr />
 
 <!-- ========================== MARK ATTENDANCE SECTION ========================== -->
 <div class="card mt-4">
-    <div class="card-header">Mark Attendance</div>
+    <div class="card-header fw-bold">Create or Update Attendance</div>
     <div class="card-body row">
         <div class="col-md-3">
             <label>Department</label>

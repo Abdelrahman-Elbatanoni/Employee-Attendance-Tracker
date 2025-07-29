@@ -75,4 +75,47 @@ public class AttendanceController : Controller
         ViewBag.Departments = new SelectList(await _departmentService.GetAllAsync(), "Id", "Name");
         ViewBag.Employees = new SelectList(await _employeeService.GetAllAsync(), "Id", "FullName");
     }
+
+    public async Task<IActionResult> Edit(int id)
+    {
+        var record = await _attendanceService.GetByIdAsync(id);
+        if (record == null) return NotFound();
+
+        var employees = await _employeeService.GetAllAsync();
+        ViewBag.Employees = new SelectList(employees, "Id", "FullName", record.EmployeeId);
+
+        return View(record);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(AttendanceRecord updated)
+    {
+        try
+        {
+            await _attendanceService.CreateOrUpdateAsync(updated.EmployeeId, updated.Date, updated.Status);
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            return View(updated);
+        }
+    }
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        var record = await _attendanceService.GetByIdAsync(id);
+        if (record == null) return NotFound();
+        return View(record);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        await _attendanceService.DeleteAsync(id);
+        return RedirectToAction(nameof(Index));
+    }
+
 }

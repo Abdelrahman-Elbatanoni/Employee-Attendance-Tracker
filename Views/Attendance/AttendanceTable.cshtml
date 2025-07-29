@@ -7,6 +7,7 @@
             <th>Employee</th>
             <th>Department</th>
             <th>Status</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -17,6 +18,10 @@
                 <td>@record.Employee?.FullName</td>
                 <td>@record.Employee?.Department?.Name</td>
                 <td>@record.Status</td>
+                <td>
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@record.Id">Edit</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@record.Id">Delete</a>
+                </td>
             </tr>
         }
     </tbody>
