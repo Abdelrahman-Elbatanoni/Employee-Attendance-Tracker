@@ -1,65 +1,84 @@
 ﻿@model IEnumerable<AttendanceRecord>
+
 @{
     ViewData["Title"] = "Attendance Management";
 }
 
-<h2>Attendance Management</h2>
+<h2 class="mb-4">Attendance Management</h2>
 
-<div class="row mb-4">
-    <div class="col-md-3">
-        <label>Department</label>
-        <select id="filterDepartment" class="form-control" asp-items="ViewBag.Departments">
-            <option value="">All</option>
-        </select>
+<!-- ========================== FILTER SECTION ========================== -->
+<div class="card mb-4">
+    <div class="card-header">Filter Attendance Records</div>
+    <div class="card-body row">
+        <div class="col-md-3">
+            <label>Department</label>
+            <select id="filterDepartment" class="form-control" asp-items="ViewBag.Departments">
+                <option value="">-- All Departments --</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label>Employee</label>
+            <select id="filterEmployee" class="form-control">
+                <option value="">-- Select Employee --</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label>From</label>
+            <input type="date" id="filterFrom" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label>To</label>
+            <input type="date" id="filterTo" class="form-control" />
+        </div>
     </div>
-    <div class="col-md-3">
-        <label>Employee</label>
-        <select id="filterEmployee" class="form-control" asp-items="ViewBag.Employees">
-            <option value="">All</option>
-        </select>
-    </div>
-    <div class="col-md-3">
-        <label>From</label>
-        <input type="date" id="filterFrom" class="form-control" />
-    </div>
-    <div class="col-md-3">
-        <label>To</label>
-        <input type="date" id="filterTo" class="form-control" />
+    <div class="card-footer">
+        <button class="btn btn-primary" onclick="filterAttendance()">Apply Filter</button>
     </div>
 </div>
 
-<button class="btn btn-primary mb-3" onclick="filterAttendance()">Filter</button>
-
+<!-- ========================== ATTENDANCE TABLE ========================== -->
 <div id="attendanceTable">
     @Html.Partial("AttendanceTable", Model)
 </div>
 
 <hr />
 
-<h4>Mark Attendance</h4>
-<div class="row">
-    <div class="col-md-4">
-        <label>Employee</label>
-        <select id="markEmployee" class="form-control" asp-items="ViewBag.Employees">
-            <option value="">-- Select Employee --</option>
-        </select>
+<!-- ========================== MARK ATTENDANCE SECTION ========================== -->
+<div class="card mt-4">
+    <div class="card-header">Mark Attendance</div>
+    <div class="card-body row">
+        <div class="col-md-3">
+            <label>Department</label>
+            <select id="markDepartment" class="form-control" asp-items="ViewBag.Departments">
+                <option value="">-- Select Department --</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label>Employee</label>
+            <select id="markEmployee" class="form-control">
+                <option value="">-- Select Employee --</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label>Date</label>
+            <input type="date" id="markDate" class="form-control"
+                   max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-md-3">
+            <label>Status</label>
+            <select id="markStatus" class="form-control">
+                <option value="Present">Present</option>
+                <option value="Absent">Absent</option>
+            </select>
+        </div>
     </div>
-    <div class="col-md-4">
-        <label>Date</label>
-        <input type="date" id="markDate" class="form-control" max="@DateTime.Today.ToString("yyyy-MM-dd")" />
-    </div>
-    <div class="col-md-4">
-        <label>Status</label>
-        <select id="markStatus" class="form-control">
-            <option value="Present">Present</option>
-            <option value="Absent">Absent</option>
-        </select>
+    <div class="card-footer">
+        <button class="btn btn-success" onclick="submitAttendance()">Submit Attendance</button>
+        <div class="mt-2 text-info" id="currentStatus"></div>
     </div>
 </div>
 
-<button class="btn btn-success mt-3" onclick="submitAttendance()">Submit</button>
-<div class="mt-2" id="currentStatus"></div>
-
+<!-- ========================== SCRIPTS ========================== -->
 @section Scripts {
     <script src="~/js/attendance.js"></script>
 }

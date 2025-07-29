@@ -57,6 +57,19 @@ public class AttendanceController : Controller
         }
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetEmployeesByDepartment(int departmentId)
+    {
+        var employees = await _employeeService.GetAllAsync();
+        var filtered = employees
+            .Where(e => e.DepartmentId == departmentId)
+            .Select(e => new { e.Id, e.FullName })
+            .ToList();
+
+        return Json(filtered);
+    }
+
+
     private async Task PopulateFilters()
     {
         ViewBag.Departments = new SelectList(await _departmentService.GetAllAsync(), "Id", "Name");

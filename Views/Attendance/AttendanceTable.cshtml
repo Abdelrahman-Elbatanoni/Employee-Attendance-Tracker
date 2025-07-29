@@ -10,13 +10,13 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var rec in Model)
+        @foreach (var record in Model)
         {
             <tr>
-                <td>@rec.Date.ToShortDateString()</td>
-                <td>@rec.Employee?.FullName</td>
-                <td>@rec.Employee?.Department?.Name</td>
-                <td>@rec.Status</td>
+                <td>@record.Date.ToString("yyyy-MM-dd")</td>
+                <td>@record.Employee?.FullName</td>
+                <td>@record.Employee?.Department?.Name</td>
+                <td>@record.Status</td>
             </tr>
         }
     </tbody>
