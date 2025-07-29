@@ -79,7 +79,7 @@ namespace Employee_Attendance_Tracker.Controllers
             if (!isunique)
             {
                 TempData["Error"] = "This email already exists.";
-                return RedirectToAction("Create");
+                return RedirectToAction("Edit",new { Id = id });
             }
             if (ModelState.IsValid)
             {

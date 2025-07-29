@@ -1,4 +1,5 @@
 ﻿using Employee_Attendance_Tracker.Models;
+using Employee_Attendance_Tracker.Services.Implementations;
 using Employee_Attendance_Tracker.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,21 @@ public class DepartmentController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(Department department)
     {
+        var isCodeunique = await _departmentService.IsCodeUniqueAsync(department.Code);
+        var isNameunique = await _departmentService.IsNameUniqueAsync(department.Name);
+
+        if (!isCodeunique)
+        {
+            TempData["Error"] = "This code already exists.";
+            return RedirectToAction("Create");
+        }
+        if (!isNameunique)
+        {
+            TempData["Error"] = "This name already exists.";
+            return RedirectToAction("Create");
+        }
+
+
         if (ModelState.IsValid)
         {
             try
@@ -55,6 +71,20 @@ public class DepartmentController : Controller
     public async Task<IActionResult> Edit(int id, Department department)
     {
         if (id != department.Id) return BadRequest();
+
+        var isCodeunique = await _departmentService.IsCodeUniqueAsync(department.Code);
+        var isNameunique = await _departmentService.IsNameUniqueAsync(department.Name);
+
+        if (!isCodeunique)
+        {
+            TempData["Error"] = "This code already exists.";
+            return RedirectToAction("Edit", new { Id = id });
+        }
+        if (!isNameunique)
+        {
+            TempData["Error"] = "This name already exists.";
+            return RedirectToAction("Edit", new { Id = id });
+        }
 
         if (ModelState.IsValid)
         {
