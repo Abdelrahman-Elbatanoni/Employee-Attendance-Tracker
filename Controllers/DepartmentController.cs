@@ -1,0 +1,88 @@
+﻿using Employee_Attendance_Tracker.Models;
+using Employee_Attendance_Tracker.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Employee_Attendance_Tracker.Controllers;
+
+public class DepartmentController : Controller
+{
+    private readonly IDepartmentService _departmentService;
+
+    public DepartmentController(IDepartmentService departmentService)
+    {
+        _departmentService = departmentService;
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        var departments = await _departmentService.GetAllAsync();
+        return View(departments);
+    }
+
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(Department department)
+    {
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                await _departmentService.CreateAsync(department);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+        }
+        return View(department);
+    }
+
+    public async Task<IActionResult> Edit(int id)
+    {
+        var department = await _departmentService.GetByIdAsync(id);
+        if (department == null) return NotFound();
+        return View(department);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, Department department)
+    {
+        if (id != department.Id) return BadRequest();
+
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                await _departmentService.UpdateAsync(department);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+        }
+        return View(department);
+    }
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        var department = await _departmentService.GetByIdAsync(id);
+        if (department == null) return NotFound();
+        return View(department);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        await _departmentService.DeleteAsync(id);
+        return RedirectToAction(nameof(Index));
+    }
+}

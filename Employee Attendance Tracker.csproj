@@ -7,4 +7,9 @@
     <RootNamespace>Employee_Attendance_Tracker</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.7" />
+  </ItemGroup>
+
 </Project>

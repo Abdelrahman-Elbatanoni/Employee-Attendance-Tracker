@@ -21,8 +21,7 @@ public class EmployeeService : IEmployeeService
 
     public async Task<Employee> GetByIdAsync(int id)
     {
-        return await _context.Employees.Include(e => e.Department)
-            .FirstOrDefaultAsync(e => e.Id == id);
+        return await _context.Employees.Include(e => e.Department).FirstOrDefaultAsync(e => e.Id == id);
     }
 
     public async Task<Employee> CreateAsync(Employee employee)

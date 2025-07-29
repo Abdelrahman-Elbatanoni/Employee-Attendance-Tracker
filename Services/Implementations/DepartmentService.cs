@@ -1,6 +1,6 @@
 ﻿using Employee_Attendance_Tracker.Data;
 using Employee_Attendance_Tracker.Services.Interfaces;
-using Employee_Tracker.Models;
+using Employee_Attendance_Tracker.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Employee_Attendance_Tracker.Services.Implementations;
@@ -21,7 +21,7 @@ public class DepartmentService : IDepartmentService
 
     public async Task<Department> GetByIdAsync(int id)
     {
-        return await _context.Departments.FindAsync(id);
+        return await _context.Departments.Include(d=>d.Employees).FirstOrDefaultAsync(d=>d.Id==id);
     }
 
     public async Task<Department> CreateAsync(Department department)

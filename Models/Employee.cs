@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Employee_Attendance_Tracker.Models;
 
@@ -17,7 +18,10 @@ public class Employee
 
     [Required]
     public int DepartmentId { get; set; }
-    public Department Department { get; set; }
 
+    [ValidateNever]
+    public Department Department { get; set; }
+    
+    [ValidateNever]
     public ICollection<AttendanceRecord> AttendanceRecords { get; set; }
 }

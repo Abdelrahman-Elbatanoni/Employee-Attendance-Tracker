@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Employee>
+@{
+    ViewData["Title"] = "Employees";
+    var summaries = (Dictionary<int, AttendanceSummary>)ViewBag.Summaries;
+}
+<h2>Employees</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Add Employee</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Presents</th>
+            <th>Absents</th>
+            <th>%</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in Model)
+        {
+            <tr>
+                <td>@emp.Code</td>
+                <td>@emp.FullName</td>
+                <td>@emp.Email</td>
+                <td>@emp.Department?.Name</td>
+                <td>@summaries[emp.Id].Presents</td>
+                <td>@summaries[emp.Id].Absents</td>
+                <td>@summaries[emp.Id].AttendancePercentage %</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@emp.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@emp.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
