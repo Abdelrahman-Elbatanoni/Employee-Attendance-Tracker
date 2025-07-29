@@ -8,17 +8,20 @@
     <div class="form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger" />
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
     </div>
     <div class="form-group">
         <label asp-for="Code"></label>
         <input asp-for="Code" class="form-control" />
-        <span asp-validation-for="Code" class="text-danger" />
+        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+
     </div>
     <div class="form-group">
         <label asp-for="Location"></label>
         <input asp-for="Location" class="form-control" />
-        <span asp-validation-for="Location" class="text-danger" />
+        @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+
     </div>
     <button type="submit" class="btn btn-success">Create</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
