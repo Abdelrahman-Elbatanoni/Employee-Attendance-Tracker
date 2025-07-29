@@ -23,7 +23,9 @@ public class AttendanceController : Controller
 
     public async Task<IActionResult> Index(int page = 1)
     {
-        const int pageSize = 1;
+        await PopulateFilters();
+
+        const int pageSize = 3;
 
         var pagedRecords = await _attendanceService.GetPagedAttendanceRecords(page, pageSize);
         ViewBag.CurrentPage = page;

@@ -25,9 +25,9 @@ public class AttendanceService : IAttendanceService
     {
         var total = await _context.AttendanceRecords.CountAsync();
         var records = await _context.AttendanceRecords
-            .Include(d => d.Employee)
-            .Include(d=>d.Employee.Department)
-            .OrderBy(e => e.EmployeeId)
+            .Include(a => a.Employee)
+            .Include(a=>a.Employee.Department)
+            .OrderBy(a => a.Date)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
