@@ -12,6 +12,6 @@ public interface IAttendanceService
     Task<AttendanceRecord> CreateOrUpdateAsync(int employeeId, DateTime date, AttendanceStatus status);
     Task<bool> DeleteAsync(int id);
     Task<AttendanceRecord> GetByEmployeeAndDateAsync(int employeeId, DateTime date);
-    Task<IEnumerable<AttendanceRecord>> FilterAsync(int? departmentId, int? employeeId, DateTime? from, DateTime? to);
+    Task<List<AttendanceRecord>> FilterAsync(int? departmentId, int? employeeId, DateTime? from, DateTime? to);
 
 }

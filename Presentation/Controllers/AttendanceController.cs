@@ -38,7 +38,8 @@ public class AttendanceController : Controller
     public async Task<IActionResult> Filter(int? departmentId, int? employeeId, DateTime? from, DateTime? to)
     {
         var filtered = await _attendanceService.FilterAsync(departmentId, employeeId, from, to);
-        return PartialView("AttendanceTable", filtered);
+
+        return PartialView("AttendanceTable", new PagedResult<AttendanceRecord>() { Items=filtered.ToList(), Page=1, PageSize=3, TotalCount= filtered.ToList().Count });
     }
 
     [HttpGet]

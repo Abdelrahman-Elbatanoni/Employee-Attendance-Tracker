@@ -85,7 +85,7 @@ public class AttendanceService : IAttendanceService
         return true;
     }
 
-    public async Task<IEnumerable<AttendanceRecord>> FilterAsync(int? departmentId, int? employeeId, DateTime? from, DateTime? to)
+    public async Task<List<AttendanceRecord>> FilterAsync(int? departmentId, int? employeeId, DateTime? from, DateTime? to)
     {
         var query = _context.AttendanceRecords
             .Include(a => a.Employee)
