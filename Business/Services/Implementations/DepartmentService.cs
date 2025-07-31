@@ -1,9 +1,9 @@
-﻿using Employee_Attendance_Tracker.Data;
-using Employee_Attendance_Tracker.Services.Interfaces;
-using Employee_Attendance_Tracker.Models;
+﻿using AttendanceTracker.Data.Data;
+using AttendanceTracker.Business.Services.Interfaces;
+using AttendanceTracker.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Employee_Attendance_Tracker.Services.Implementations;
+namespace AttendanceTracker.Business.Services.Implementations;
 
 public class DepartmentService : IDepartmentService
 {
@@ -78,13 +78,13 @@ public class DepartmentService : IDepartmentService
         return await _context.Employees.CountAsync(e => e.DepartmentId == departmentId);
     }
 
-    public async Task<bool> IsCodeUniqueAsync(string code)
+    public async Task<bool> IsCodeUniqueAsync(int id, string code)
     {
-        return !await _context.Departments.AnyAsync(d => d.Code == code);
+        return !await _context.Departments.AnyAsync(d => d.Code == code && d.Id !=id);
     }
 
-    public async Task<bool> IsNameUniqueAsync(string name)
+    public async Task<bool> IsNameUniqueAsync(int id, string name)
     {
-        return !await _context.Departments.AnyAsync(d => d.Name == name);
+        return !await _context.Departments.AnyAsync(d => d.Name == name && d.Id != id);
     }
 }

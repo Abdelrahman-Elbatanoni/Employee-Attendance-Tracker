@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace Employee_Attendance_Tracker.Models;
+namespace AttendanceTracker.Data.Models;
 
 public class Employee
 {
@@ -21,7 +21,7 @@ public class Employee
 
     [ValidateNever]
     public Department Department { get; set; }
-    
+
     [ValidateNever]
-    public ICollection<AttendanceRecord> AttendanceRecords { get; set; }
+    public virtual ICollection<AttendanceRecord> AttendanceRecords { get; set; }
 }

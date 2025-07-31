@@ -1,7 +1,7 @@
-﻿using Employee_Attendance_Tracker.Models;
+﻿using AttendanceTracker.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Employee_Attendance_Tracker.Data;
+namespace AttendanceTracker.Data.Data;
 
 public class AppDbContext : DbContext
 {

@@ -1,6 +1,6 @@
-﻿using Employee_Attendance_Tracker.Models;
+﻿using AttendanceTracker.Data.Models;
 
-namespace Employee_Attendance_Tracker.Services.Interfaces;
+namespace AttendanceTracker.Business.Services.Interfaces;
 
 public interface IDepartmentService
 {
@@ -12,6 +12,6 @@ public interface IDepartmentService
     Task<Department> UpdateAsync(Department department);
     Task<bool> DeleteAsync(int id);
     Task<int> GetEmployeeCountAsync(int departmentId);
-    Task<bool> IsCodeUniqueAsync(string code);
-    Task<bool> IsNameUniqueAsync(string name);
+    Task<bool> IsCodeUniqueAsync(int id,string code);
+    Task<bool> IsNameUniqueAsync(int id,string name);
 }

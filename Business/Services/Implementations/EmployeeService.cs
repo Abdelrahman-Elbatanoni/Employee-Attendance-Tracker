@@ -1,9 +1,9 @@
-﻿using Employee_Attendance_Tracker.Data;
-using Employee_Attendance_Tracker.Models;
-using Employee_Attendance_Tracker.Services.Interfaces;
+﻿using AttendanceTracker.Data.Data;
+using AttendanceTracker.Business.Services.Interfaces;
+using AttendanceTracker.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Employee_Attendance_Tracker.Services.Implementations;
+namespace AttendanceTracker.Business.Services.Implementations;
 
 public class EmployeeService : IEmployeeService
 {
@@ -38,8 +38,6 @@ public class EmployeeService : IEmployeeService
     }
     public async Task<Employee> CreateAsync(Employee employee)
     {
-        if (!await IsEmailUniqueAsync(employee.Email))
-            throw new Exception("Email already exists.");
 
         // Validate name: 4 words, each ≥ 2 letters
         var names = employee.FullName?.Trim().Split(' ');
@@ -57,9 +55,6 @@ public class EmployeeService : IEmployeeService
     {
         var existing = await _context.Employees.FindAsync(employee.Id);
         if (existing == null) return null;
-
-        if (!await IsEmailUniqueAsync(employee.Email, employee.Id))
-            throw new Exception("Email already exists.");
 
         var names = employee.FullName?.Trim().Split(' ');
         if (names == null || names.Length != 4 || names.Any(n => n.Length < 2))
@@ -83,10 +78,9 @@ public class EmployeeService : IEmployeeService
         return true;
     }
 
-    public async Task<bool> IsEmailUniqueAsync(string email, int? excludeId = null)
+    public async Task<bool> IsEmailUniqueAsync(int id,string email)
     {
-        return !await _context.Employees.AnyAsync(e =>
-            e.Email == email && (!excludeId.HasValue || e.Id != excludeId));
+        return !await _context.Employees.AnyAsync(e => e.Email == email && e.Id != id);
     }
 
     private async Task<int> GenerateUniqueCodeAsync()

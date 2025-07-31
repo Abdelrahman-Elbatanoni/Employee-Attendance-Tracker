@@ -1,6 +1,5 @@
-﻿using Employee_Attendance_Tracker.Models;
-using Employee_Attendance_Tracker.Services.Implementations;
-using Employee_Attendance_Tracker.Services.Interfaces;
+﻿using AttendanceTracker.Data.Models;
+using AttendanceTracker.Business.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Employee_Attendance_Tracker.Controllers;
@@ -34,8 +33,8 @@ public class DepartmentController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(Department department)
     {
-        var isCodeunique = await _departmentService.IsCodeUniqueAsync(department.Code);
-        var isNameunique = await _departmentService.IsNameUniqueAsync(department.Name);
+        var isCodeunique = await _departmentService.IsCodeUniqueAsync(department.Id,department.Code);
+        var isNameunique = await _departmentService.IsNameUniqueAsync(department.Id,department.Name);
 
         if (!isCodeunique)
         {
@@ -77,8 +76,8 @@ public class DepartmentController : Controller
     {
         if (id != department.Id) return BadRequest();
 
-        var isCodeunique = await _departmentService.IsCodeUniqueAsync(department.Code);
-        var isNameunique = await _departmentService.IsNameUniqueAsync(department.Name);
+        var isCodeunique = await _departmentService.IsCodeUniqueAsync(id,department.Code);
+        var isNameunique = await _departmentService.IsNameUniqueAsync(id,department.Name);
 
         if (!isCodeunique)
         {

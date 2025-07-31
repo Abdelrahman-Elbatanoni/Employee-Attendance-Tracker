@@ -1,6 +1,6 @@
-using Employee_Attendance_Tracker.Data;
-using Employee_Attendance_Tracker.Services.Implementations;
-using Employee_Attendance_Tracker.Services.Interfaces;
+using AttendanceTracker.Data.Data;
+using AttendanceTracker.Business.Services.Implementations;
+using AttendanceTracker.Business.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Employee_Attendance_Tracker

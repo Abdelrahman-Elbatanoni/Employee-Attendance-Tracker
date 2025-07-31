@@ -1,5 +1,5 @@
-﻿using Employee_Attendance_Tracker.Models;
-using Employee_Attendance_Tracker.Services.Interfaces;
+﻿using AttendanceTracker.Data.Models;
+using AttendanceTracker.Business.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 

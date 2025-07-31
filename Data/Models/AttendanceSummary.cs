@@ -1,4 +1,4 @@
-﻿namespace Employee_Attendance_Tracker.Models;
+﻿namespace AttendanceTracker.Data.Models;
 
 public class AttendanceSummary
 {

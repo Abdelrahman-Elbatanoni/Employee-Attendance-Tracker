@@ -1,9 +1,9 @@
-﻿using Employee_Attendance_Tracker.Data;
-using Employee_Attendance_Tracker.Models;
-using Employee_Attendance_Tracker.Services.Interfaces;
+﻿using AttendanceTracker.Data.Data;
+using AttendanceTracker.Data.Models;
+using AttendanceTracker.Business.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Employee_Attendance_Tracker.Services.Implementations;
+namespace AttendanceTracker.Business.Services.Implementations;
 public class AttendanceService : IAttendanceService
 {
     private readonly AppDbContext _context;

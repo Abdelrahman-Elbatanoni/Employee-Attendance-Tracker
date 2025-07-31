@@ -1,5 +1,5 @@
-﻿using Employee_Attendance_Tracker.Models;
-using Employee_Attendance_Tracker.Services.Interfaces;
+﻿using AttendanceTracker.Data.Models;
+using AttendanceTracker.Business.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -42,7 +42,7 @@ namespace Employee_Attendance_Tracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Employee employee)
         {
-            var isunique = await _employeeService.IsEmailUniqueAsync(employee.Email);
+            var isunique = await _employeeService.IsEmailUniqueAsync(employee.Id,employee.Email);
             if (!isunique)
             {
                 TempData["Error"] = "This email already exists.";
@@ -79,7 +79,7 @@ namespace Employee_Attendance_Tracker.Controllers
         public async Task<IActionResult> Edit(int id, Employee employee)
         {
             if (id != employee.Id) return BadRequest();
-            var isunique = await _employeeService.IsEmailUniqueAsync(employee.Email);
+            var isunique = await _employeeService.IsEmailUniqueAsync(id,employee.Email);
             if (!isunique)
             {
                 TempData["Error"] = "This email already exists.";

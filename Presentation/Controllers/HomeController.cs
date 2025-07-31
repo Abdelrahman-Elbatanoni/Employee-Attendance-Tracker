@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Employee_Attendance_Tracker.Models;
+using AttendanceTracker.Data.Models;
 
 namespace Employee_Attendance_Tracker.Controllers;
 

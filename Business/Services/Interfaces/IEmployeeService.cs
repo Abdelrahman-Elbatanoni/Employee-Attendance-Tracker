@@ -1,6 +1,6 @@
-﻿using Employee_Attendance_Tracker.Models;
+﻿using AttendanceTracker.Data.Models;
 
-namespace Employee_Attendance_Tracker.Services.Interfaces;
+namespace AttendanceTracker.Business.Services.Interfaces;
 
 public interface IEmployeeService
 {
@@ -12,6 +12,6 @@ public interface IEmployeeService
     Task<Employee> CreateAsync(Employee employee);
     Task<Employee> UpdateAsync(Employee employee);
     Task<bool> DeleteAsync(int id);
-    Task<bool> IsEmailUniqueAsync(string email, int? excludeId = null);
+    Task<bool> IsEmailUniqueAsync(int id, string email);
     Task<AttendanceSummary> GetAttendanceSummaryAsync(int employeeId);
 }

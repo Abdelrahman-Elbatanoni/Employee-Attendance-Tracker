@@ -1,7 +1,7 @@
 ﻿
-using Employee_Attendance_Tracker.Models;
+using AttendanceTracker.Data.Models;
 
-namespace Employee_Attendance_Tracker.Services.Interfaces;
+namespace AttendanceTracker.Business.Services.Interfaces;
 
 public interface IAttendanceService
 {

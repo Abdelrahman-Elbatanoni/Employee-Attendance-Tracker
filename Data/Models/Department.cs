@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace Employee_Attendance_Tracker.Models;
+namespace AttendanceTracker.Data.Models;
 
 public class Department
 {
