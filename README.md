@@ -45,6 +45,7 @@ An ASP.NET Core MVC web application to manage departments, employees, and track 
 ---
 
 ## 🛠️ Tech Stack
+-N-tier Architecture (presentation, business, and data)
 - ASP.NET Core MVC
 - Entity Framework Core (In-Memory Database)
 - Bootstrap 5
