@@ -2,19 +2,56 @@
 @{
     ViewData["Title"] = "Employees";
     var summaries = (Dictionary<int, AttendanceSummary>)ViewBag.Summaries;
-
-}
+    var currentSortBy = ViewBag.SortBy ?? "fullname";
+    var currentSortOrder = ViewBag.SortOrder ?? "asc";
+    var currentPage = ViewBag.CurrentPage ?? 1;
+} 
 
 <h2>Employees</h2>
 <a class="btn btn-primary mb-3" asp-action="Create">Add New Employee</a>
 
-
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Department</th>
+            <th>
+                <a asp-action="Index" asp-route-page="@currentPage" asp-route-sortBy="fullname" asp-route-sortOrder="@(currentSortBy == "fullname" && currentSortOrder == "asc" ? "desc" : "asc")" class="text-decoration-none text-dark sortable-header @(currentSortBy == "fullname" ? "active" : "")">
+                    Name
+                    @if (currentSortBy == "fullname")
+                    {
+                        <i class="fas fa-sort-@(currentSortOrder == "asc" ? "up" : "down")"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-sort"></i>
+                    }
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-page="@currentPage" asp-route-sortBy="email" asp-route-sortOrder="@(currentSortBy == "email" && currentSortOrder == "asc" ? "desc" : "asc")" class="text-decoration-none text-dark sortable-header @(currentSortBy == "email" ? "active" : "")">
+                    Email
+                    @if (currentSortBy == "email")
+                    {
+                        <i class="fas fa-sort-@(currentSortOrder == "asc" ? "up" : "down")"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-sort"></i>
+                    }
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-page="@currentPage" asp-route-sortBy="department" asp-route-sortOrder="@(currentSortBy == "department" && currentSortOrder == "asc" ? "desc" : "asc")" class="text-decoration-none text-dark sortable-header @(currentSortBy == "department" ? "active" : "")">
+                    Department
+                    @if (currentSortBy == "department")
+                    {
+                        <i class="fas fa-sort-@(currentSortOrder == "asc" ? "up" : "down")"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-sort"></i>
+                    }
+                </a>
+            </th>
             <th>Presents</th>
             <th>Absents</th>
             <th>%</th>
@@ -39,14 +76,15 @@
         }
     </tbody>
 </table>
+
 @if (Model.TotalPages > 1)
 {
     <nav>
         <ul class="pagination">
             @for (int i = 1; i <= (int)Model.TotalPages; i++)
             {
-                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                    <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-sortBy="@currentSortBy" asp-route-sortOrder="@currentSortOrder">@i</a>
                 </li>
             }
         </ul>

@@ -31,10 +31,38 @@ public class EmployeeService : IEmployeeService
         return new PagedResult<Employee>() { Items = employees , Page=page, PageSize=pageSize,TotalCount=total};
     }
 
+    public async Task<PagedResult<Employee>> GetPagedEmployees(int page, int pageSize, string sortBy, string sortOrder)
+    {
+        var total = await _context.Employees.CountAsync();
+        var query = _context.Employees.Include(e => e.Department);
+
+        // Apply sorting
+        IQueryable<Employee> sortedQuery = sortBy?.ToLower() switch
+        {
+            "fullname" => sortOrder?.ToLower() == "desc" 
+                ? query.OrderByDescending(e => e.FullName)
+                : query.OrderBy(e => e.FullName),
+            "email" => sortOrder?.ToLower() == "desc" 
+                ? query.OrderByDescending(e => e.Email)
+                : query.OrderBy(e => e.Email),
+            "department" => sortOrder?.ToLower() == "desc" 
+                ? query.OrderByDescending(e => e.Department!.Name)
+                : query.OrderBy(e => e.Department!.Name),
+            _ => query.OrderBy(e => e.FullName) // Default sorting
+        };
+
+        var employees = await sortedQuery
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new PagedResult<Employee>() { Items = employees, Page = page, PageSize = pageSize, TotalCount = total };
+    }
+
 
     public async Task<Employee> GetByIdAsync(int id)
     {
-        return await _context.Employees.Include(e => e.Department).FirstOrDefaultAsync(e => e.Id == id);
+        return await _context.Employees.Include(e => e.Department).FirstOrDefaultAsync(e => e.Id == id) ?? null!;
     }
     public async Task<Employee> CreateAsync(Employee employee)
     {
@@ -54,7 +82,7 @@ public class EmployeeService : IEmployeeService
     public async Task<Employee> UpdateAsync(Employee employee)
     {
         var existing = await _context.Employees.FindAsync(employee.Id);
-        if (existing == null) return null;
+        if (existing == null) return null!;
 
         var names = employee.FullName?.Trim().Split(' ');
         if (names == null || names.Length != 4 || names.Any(n => n.Length < 2))

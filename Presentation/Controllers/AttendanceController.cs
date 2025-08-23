@@ -21,25 +21,68 @@ public class AttendanceController : Controller
         _departmentService = departmentService;
     }
 
-    public async Task<IActionResult> Index(int page = 1)
+    public async Task<IActionResult> Index(int page = 1, int? departmentId = null, int? employeeId = null, DateTime? from = null, DateTime? to = null)
     {
         await PopulateFilters();
 
         const int pageSize = 3;
 
-        var pagedRecords = await _attendanceService.GetPagedAttendanceRecords(page, pageSize);
+        PagedResult<AttendanceRecord> pagedRecords;
+        
+        if (departmentId.HasValue || employeeId.HasValue || from.HasValue || to.HasValue)
+        {
+            // Apply filters with pagination
+            var allFiltered = await _attendanceService.FilterAsync(departmentId, employeeId, from, to);
+            var totalCount = allFiltered.Count();
+            var items = allFiltered.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            
+            pagedRecords = new PagedResult<AttendanceRecord> 
+            { 
+                Items = items, 
+                Page = page, 
+                PageSize = pageSize, 
+                TotalCount = totalCount 
+            };
+        }
+        else
+        {
+            // No filters applied
+            pagedRecords = await _attendanceService.GetPagedAttendanceRecords(page, pageSize);
+        }
+
         ViewBag.CurrentPage = page;
+        ViewBag.DepartmentId = departmentId;
+        ViewBag.EmployeeId = employeeId;
+        ViewBag.From = from?.ToString("yyyy-MM-dd");
+        ViewBag.To = to?.ToString("yyyy-MM-dd");
 
         return View(pagedRecords);
     }
 
-
     [HttpPost]
-    public async Task<IActionResult> Filter(int? departmentId, int? employeeId, DateTime? from, DateTime? to)
+    public async Task<IActionResult> Filter(int? departmentId, int? employeeId, DateTime? from, DateTime? to, int page = 1)
     {
-        var filtered = await _attendanceService.FilterAsync(departmentId, employeeId, from, to);
+        const int pageSize = 3;
+        
+        var allFiltered = await _attendanceService.FilterAsync(departmentId, employeeId, from, to);
+        var totalCount = allFiltered.Count();
+        var items = allFiltered.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+        
+        var pagedResult = new PagedResult<AttendanceRecord> 
+        { 
+            Items = items, 
+            Page = page, 
+            PageSize = pageSize, 
+            TotalCount = totalCount 
+        };
 
-        return PartialView("AttendanceTable", new PagedResult<AttendanceRecord>() { Items=filtered.ToList(), Page=1, PageSize=3, TotalCount= filtered.ToList().Count });
+        ViewBag.CurrentPage = page;
+        ViewBag.DepartmentId = departmentId;
+        ViewBag.EmployeeId = employeeId;
+        ViewBag.From = from?.ToString("yyyy-MM-dd");
+        ViewBag.To = to?.ToString("yyyy-MM-dd");
+
+        return PartialView("AttendanceTable", pagedResult);
     }
 
     [HttpGet]

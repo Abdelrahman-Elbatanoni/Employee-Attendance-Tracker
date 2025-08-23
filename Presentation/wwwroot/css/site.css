@@ -29,3 +29,24 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* Sorting table headers */
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.sortable-header:hover {
+  color: #007bff !important;
+}
+
+.sortable-header i {
+  margin-left: 5px;
+  font-size: 0.8em;
+}
+
+.sortable-header.active {
+  color: #007bff !important;
+  font-weight: bold;
+}

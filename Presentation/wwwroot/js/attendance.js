@@ -9,25 +9,37 @@ function filterAttendance() {
         departmentId: deptId,
         employeeId: empId,
         from: from,
-        to: to
+        to: to,
+        page: 1
     }, function (html) {
         $('#attendanceTable').html(html);
     });
 }
 
-// === 2. Filter Employees (for filtering section) ===
+// === 2. Clear Filters ===
+function clearFilters() {
+    $('#filterDepartment').val('');
+    $('#filterEmployee').html('<option value="">-- Select Employee --</option>');
+    $('#filterFrom').val('');
+    $('#filterTo').val('');
+    
+    // Reload the page to show all records
+    window.location.href = '/Attendance/Index';
+}
+
+// === 3. Filter Employees (for filtering section) ===
 $('#filterDepartment').on('change', function () {
     var departmentId = $(this).val();
     updateEmployeeDropdown('#filterEmployee', departmentId);
 });
 
-// === 3. Filter Employees (for marking attendance section) ===
+// === 4. Filter Employees (for marking attendance section) ===
 $('#markDepartment').on('change', function () {
     var departmentId = $(this).val();
     updateEmployeeDropdown('#markEmployee', departmentId);
 });
 
-// === 4. Update Employee Dropdown by Department ===
+// === 5. Update Employee Dropdown by Department ===
 function updateEmployeeDropdown(employeeSelectId, departmentId) {
     const $dropdown = $(employeeSelectId);
     $dropdown.empty().append('<option value="">-- Loading... --</option>');
@@ -45,7 +57,7 @@ function updateEmployeeDropdown(employeeSelectId, departmentId) {
     });
 }
 
-// === 5. Load Current Attendance Status ===
+// === 6. Load Current Attendance Status ===
 $('#markEmployee, #markDate').on('change', function () {
     var empId = $('#markEmployee').val();
     var date = $('#markDate').val();
@@ -60,7 +72,7 @@ $('#markEmployee, #markDate').on('change', function () {
     });
 });
 
-// === 6. Submit Attendance ===
+// === 7. Submit Attendance ===
 function submitAttendance() {
     var empId = $('#markEmployee').val();
     var date = $('#markDate').val();

@@ -26,6 +26,7 @@
         }
     </tbody>
 </table>
+
 @if (Model.TotalPages > 1)
 {
     <nav>
@@ -33,9 +34,28 @@
             @for (int i = 1; i <= Model.TotalPages; i++)
             {
                 <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                    <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                    <a class="page-link" href="javascript:void(0)" onclick="goToPage(@i)">@i</a>
                 </li>
             }
         </ul>
     </nav>
 }
+
+<script>
+    function goToPage(page) {
+        var deptId = $('#filterDepartment').val();
+        var empId = $('#filterEmployee').val();
+        var from = $('#filterFrom').val();
+        var to = $('#filterTo').val();
+
+        $.post('/Attendance/Filter', {
+            departmentId: deptId,
+            employeeId: empId,
+            from: from,
+            to: to,
+            page: page
+        }, function (html) {
+            $('#attendanceTable').html(html);
+        });
+    }
+</script>

@@ -33,7 +33,7 @@ public class DepartmentService : IDepartmentService
 
     public async Task<Department> GetByIdAsync(int id)
     {
-        return await _context.Departments.Include(d=>d.Employees).FirstOrDefaultAsync(d=>d.Id==id);
+        return await _context.Departments.Include(d=>d.Employees).FirstOrDefaultAsync(d=>d.Id==id) ?? null!;
     }
 
     public async Task<Department> CreateAsync(Department department)
@@ -49,7 +49,7 @@ public class DepartmentService : IDepartmentService
     public async Task<Department> UpdateAsync(Department department)
     {
         var existing = await _context.Departments.FindAsync(department.Id);
-        if (existing == null) return null;
+        if (existing == null) return null!;
 
         if ((existing.Name != department.Name && await _context.Departments.AnyAsync(d => d.Name == department.Name)) ||
             (existing.Code != department.Code && await _context.Departments.AnyAsync(d => d.Code == department.Code)))

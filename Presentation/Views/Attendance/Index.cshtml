@@ -2,6 +2,10 @@
 
 @{
     ViewData["Title"] = "Attendance Management";
+    var currentDepartmentId = ViewBag.DepartmentId;
+    var currentEmployeeId = ViewBag.EmployeeId;
+    var currentFrom = ViewBag.From;
+    var currentTo = ViewBag.To;
 }
 
 <h2 class="mb-4">Attendance Management</h2>
@@ -24,15 +28,16 @@
         </div>
         <div class="col-md-3">
             <label>From</label>
-            <input type="date" id="filterFrom" class="form-control" />
+            <input type="date" id="filterFrom" class="form-control" value="@currentFrom" />
         </div>
         <div class="col-md-3">
             <label>To</label>
-            <input type="date" id="filterTo" class="form-control" />
+            <input type="date" id="filterTo" class="form-control" value="@currentTo" />
         </div>
     </div>
     <div class="card-footer">
         <button class="btn btn-primary" onclick="filterAttendance()">Apply Filter</button>
+        <button class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
     </div>
 </div>
 
@@ -87,4 +92,18 @@
 <!-- ========================== SCRIPTS ========================== -->
 @section Scripts {
     <script src="~/js/attendance.js"></script>
+    <script>
+        // Set initial filter values
+        $(document).ready(function() {
+            if ('@currentDepartmentId' !== '') {
+                $('#filterDepartment').val('@currentDepartmentId');
+                updateEmployeeDropdown('#filterEmployee', '@currentDepartmentId');
+            }
+            if ('@currentEmployeeId' !== '') {
+                setTimeout(function() {
+                    $('#filterEmployee').val('@currentEmployeeId');
+                }, 500);
+            }
+        });
+    </script>
 }
